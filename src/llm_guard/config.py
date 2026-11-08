@@ -60,7 +60,7 @@ class StagesConfig(BaseModel):
 
 class LLMJudgeConfig(BaseModel):
     model: str = "qwen2.5:7b-instruct"
-    timeout_seconds: float = 8.0
+    timeout_seconds: float = 30.0
     max_retries: int = 1
 
 

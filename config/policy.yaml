@@ -30,7 +30,7 @@ uncertain_without_judge: mask
 
 llm_judge:
   model: qwen2.5:7b-instruct
-  timeout_seconds: 8
+  timeout_seconds: 30           # GPU なしの CPU 実行では 1 件 10〜30 秒かかることがある。足りなければ 60〜120 に
   max_retries: 1
 
 masking:

@@ -77,7 +77,7 @@ $env:OPENAI_BASE_URL = "http://127.0.0.1:8001/v1"; uv run uvicorn llm_guard.main
 
 Windows の `curl.exe` では JSON の引用符をエスケープする必要があるため、動作確認は http://localhost:8000/docs の画面（FastAPI が自動生成）から送るのが簡単です。
 
-Stage 3 を使うには別途 [Ollama](https://ollama.com/) を起動し、`ollama pull qwen2.5:7b-instruct` しておきます。Ollama に届かないときは Stage 3 を飛ばし、不確実帯の検出は `uncertain_without_judge`（既定 mask）で扱います。
+Stage 3 を使うには別途 [Ollama](https://ollama.com/) を起動し、`ollama pull qwen2.5:7b-instruct` しておきます。疎通と1件あたりの所要時間は `uv run python -m llm_guard.judge_check "山田太郎に資料を送る"` で確認できます。Ollama に届かないときは Stage 3 を飛ばし、不確実帯の検出は `uncertain_without_judge`（既定 mask）で扱います。
 
 ### 最初の1リクエスト
 
@@ -178,7 +178,7 @@ on_judge_only_detection: review # Stage 3 だけが機微と判断し、マス�
 uncertain_without_judge: mask   # Stage 3 が off か不在のときの不確実帯の扱い
 llm_judge:
   model: qwen2.5:7b-instruct
-  timeout_seconds: 8
+  timeout_seconds: 30           # CPU 実行では 1 件 10〜30 秒かかることがある
   max_retries: 1
 masking:
   restore_in_response: false

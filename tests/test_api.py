@@ -16,15 +16,16 @@ async def mock_client():
 
 
 @pytest.fixture
-async def client(mock_client):
+async def client(mock_client, tmp_path):
     forwarder = OpenAICompatForwarder("http://mock/v1", client=mock_client)
     # テストでは Stage 2（モデルのロードが重い）と Stage 3（Ollama が要る）を切る
     policy = load_policy("config/policy.yaml")
     policy = policy.model_copy(
         update={"stages": policy.stages.model_copy(update={"ner": False, "llm_judge": "off"})}
     )
-    guard = build_guard(policy, Settings())
-    app = create_app(forwarder=forwarder, guard=guard)
+    settings = Settings(data_dir=tmp_path)
+    guard = build_guard(policy, settings)
+    app = create_app(settings, forwarder=forwarder, guard=guard)
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as c:
         yield c

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import uuid
 from typing import Any
 
 from fastapi import FastAPI, Request, Response
@@ -11,17 +10,24 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from llm_guard import __version__
+from llm_guard.audit import AuditLog
 from llm_guard.config import ACTION_SEVERITY, Settings, load_policy
 from llm_guard.factory import build_guard
 from llm_guard.forwarder import OpenAICompatForwarder
-from llm_guard.masking import MaskMap
+from llm_guard.masking import MaskMap, mask_text
 from llm_guard.pipeline import Guard, InspectionResult
+from llm_guard.review import ReviewQueue
 
 INSPECTED_ROLES = {"user", "system"}
 
 
 class InspectRequest(BaseModel):
     text: str = Field(min_length=0, max_length=100_000)
+
+
+class ReviewAction(BaseModel):
+    action: str = Field(pattern="^(approve|reject)$")
+    send: str = Field(default="masked", pattern="^(masked|original)$")
 
 
 def _message_text(content: Any) -> str:
@@ -59,9 +65,15 @@ def create_app(
         settings.openai_base_url, settings.openai_api_key, settings.openai_model
     )
 
+    db_path = settings.data_dir / "guard.db"
+    audit = AuditLog(db_path)
+    reviews = ReviewQueue(db_path)
+
     app = FastAPI(title="llm-guard-gateway", version=__version__)
     app.state.guard = guard
     app.state.settings = settings
+    app.state.audit = audit
+    app.state.reviews = reviews
 
     def guard_headers(decision: str, stages: list[str], n_findings: int) -> dict[str, str]:
         return {
@@ -104,7 +116,29 @@ def create_app(
         response.headers.update(
             guard_headers(result.decision, result.stages_run, len(result.findings))
         )
+        audit.record(
+            endpoint="/v1/inspect",
+            decision=result.decision,
+            stages=result.stages_run,
+            findings=result.public_findings(),
+            timings_ms=result.timings_ms,
+            total_ms=result.total_ms,
+            judge_used=result.judge is not None,
+            judge_error=(result.judge or {}).get("error"),
+        )
         return result
+
+    async def forward_and_respond(
+        body: dict, headers: dict[str, str], mask_map: MaskMap, restore: bool
+    ) -> Response:
+        upstream = await forwarder.forward(body)
+        data = upstream.body
+        if restore and isinstance(data, dict) and len(mask_map):
+            for ch in data.get("choices", []):
+                msg = ch.get("message") if isinstance(ch, dict) else None
+                if isinstance(msg, dict) and isinstance(msg.get("content"), str):
+                    msg["content"] = mask_map.restore(msg["content"])
+        return JSONResponse(data, status_code=upstream.status_code, headers=headers)
 
     @app.post("/v1/chat/completions")
     async def chat_completions(request: Request) -> Response:
@@ -142,8 +176,10 @@ def create_app(
             results.append(r)
             if ACTION_SEVERITY[r.decision] > ACTION_SEVERITY[decision]:
                 decision = r.decision
-            if r.masked_text is not None:
-                new_messages.append({**m, "content": _replace_text(m["content"], r.masked_text)})
+            if r.acted_findings:
+                # mask でも review でも、送るならマスク済みの形を用意しておく
+                masked = r.masked_text or mask_text(text, r.acted_findings, mask_map)
+                new_messages.append({**m, "content": _replace_text(m["content"], masked)})
             else:
                 new_messages.append(m)
 
@@ -155,6 +191,25 @@ def create_app(
             "findings": [f for r in results for f in r.public_findings()],
             "reasons": [r.reason for r in results if r.findings],
         }
+        review_id = (
+            reviews.enqueue(body, {**body, "messages": new_messages}, summary)
+            if decision == "review"
+            else None
+        )
+        audit.record(
+            endpoint="/v1/chat/completions",
+            decision=decision,
+            stages=stages,
+            findings=summary["findings"],
+            timings_ms={k: sum(r.timings_ms.get(k, 0.0) for r in results) for k in stages},
+            total_ms=sum(r.total_ms for r in results),
+            judge_used=any(r.judge is not None for r in results),
+            judge_error=next(
+                (r.judge["error"] for r in results if r.judge and r.judge.get("error")), None
+            ),
+            n_messages=len(results),
+            review_id=review_id,
+        )
 
         if decision == "block":
             return JSONResponse(
@@ -170,26 +225,40 @@ def create_app(
                 headers=headers,
             )
         if decision == "review":
-            review_id = uuid.uuid4().hex
             return JSONResponse(
                 {"status": "pending_review", "review_id": review_id, "guard": summary},
                 status_code=202,
                 headers=headers,
             )
 
-        upstream = await forwarder.forward({**body, "messages": new_messages})
-        data = upstream.body
-        if (
-            decision == "mask"
-            and guard.policy.masking.restore_in_response
-            and isinstance(data, dict)
-            and len(mask_map)
-        ):
-            for ch in data.get("choices", []):
-                msg = ch.get("message") if isinstance(ch, dict) else None
-                if isinstance(msg, dict) and isinstance(msg.get("content"), str):
-                    msg["content"] = mask_map.restore(msg["content"])
-        return JSONResponse(data, status_code=upstream.status_code, headers=headers)
+        restore = decision == "mask" and guard.policy.masking.restore_in_response
+        return await forward_and_respond(
+            {**body, "messages": new_messages}, headers, mask_map, restore
+        )
+
+    @app.get("/v1/review")
+    def list_review() -> dict:
+        return {"pending": reviews.list_pending()}
+
+    @app.post("/v1/review/{review_id}")
+    async def resolve_review(review_id: str, action: ReviewAction) -> Response:
+        item = reviews.get(review_id)
+        if item is None:
+            return JSONResponse({"error": {"message": "not found"}}, status_code=404)
+        if item["status"] != "pending":
+            return JSONResponse(
+                {"error": {"message": f"already {item['status']}"}}, status_code=409
+            )
+        if action.action == "reject":
+            reviews.resolve(review_id, "reject")
+            return JSONResponse({"status": "rejected", "review_id": review_id})
+        body = item["masked_request"] if action.send == "masked" else item["request"]
+        if body is None:
+            body = item["request"]
+        reviews.resolve(review_id, f"approve:{action.send}")
+        headers = {"x-guard-decision": "review-approved", "x-guard-review-id": review_id}
+        # 承認後の転送。復元用の対応表は保留中に保持していないので、復元はしない
+        return await forward_and_respond(body, headers, MaskMap(), restore=False)
 
     return app
 

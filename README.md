@@ -41,6 +41,51 @@ flowchart LR
 - **早期終了**: Stage 1 の時点で block が確定したら、以降の段階は走らせない
 - Stage 3 は既定で「不確実帯の検出があるときだけ」呼ぶ（`always | on_uncertain | off`）。文と一緒に Stage 1/2 の候補を渡し、「この候補は個人情報として扱うべきか」を聞く。全件 LLM 判定は遅く不安定なため
 
+### 1リクエストの流れ（既定の mask モード）
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant C as クライアント
+  participant G as Gateway
+  participant S1 as Stage 1 ルール
+  participant S2 as Stage 2 GiNZA
+  participant P as Policy Engine
+  participant S3 as Stage 3 Ollama
+  participant L as 外部 LLM
+
+  C->>G: POST /v1/chat/completions<br/>「山田太郎さん（090-1234-5678）に…」
+  G->>S1: detect(text)
+  S1-->>G: phone 0.92（確定）
+  G->>S2: detect(text)
+  S2-->>G: person_name 0.92（確定）
+  G->>P: 判定
+  Note over P: 確定のみ。不確実帯なし → Stage 3 は呼ばない
+  P-->>G: mask
+  G->>L: 「<PERSON_NAME_1>さん（<PHONE_1>）に…」
+  L-->>G: 応答
+  G-->>C: 応答 + x-guard-decision: mask
+```
+
+住所のように confidence が不確実帯（0.40〜0.90）に入る検出があるときだけ、Policy Engine が Stage 3 を呼び、候補を見せて「個人情報として扱うべきか」を聞きます。Stage 1 の時点で block が確定した場合（個人番号など）は、Stage 2 以降を走らせずに 403 を返します。
+
+### 判定の3帯と、不確実帯の行き先
+
+```mermaid
+flowchart TB
+  F[Finding<br/>confidence] --> B{値は？}
+  B -->|0.90 以上<br/>確定| M[mode どおり<br/>mask / block / review<br/>＋ kinds.min_action で引き上げ]
+  B -->|0.40 〜 0.90<br/>不確実| J{Stage 3 は？}
+  B -->|0.40 未満| I[無視<br/>監査ログには残る]
+  J -->|有効・到達可| S3[Ollama に候補を渡して判定]
+  J -->|off / 不在| U[uncertain_without_judge<br/>既定 mask]
+  S3 -->|機微| M
+  S3 -->|機微でない| R{judge_can_release?}
+  S3 -->|判断不能| E[on_judge_error<br/>既定 review]
+  R -->|true| I
+  R -->|false<br/>個人番号・カード| M
+```
+
 ## 動かし方
 
 ### docker compose（gateway + Ollama + 転送先のモック）

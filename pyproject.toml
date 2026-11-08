@@ -1,0 +1,49 @@
+[project]
+name = "llm-guard-gateway"
+version = "0.1.0"
+description = "LLM への入力を3段階で検査し、個人情報を止めてから転送するプロキシ"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [{ name = "Ikkei Miyata" }]
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.30",
+  "httpx>=0.27",
+  "pydantic>=2.7",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Stage 2: 固有表現抽出。モデル込みで数百 MB 落ちる
+ner = ["spacy>=3.7", "ja-ginza>=5.2"]
+# 評価ハーネスの合成データ生成
+eval = ["faker>=26"]
+
+[dependency-groups]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.23",
+  "ruff>=0.6",
+  "faker>=26",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_guard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "eval"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "W"]

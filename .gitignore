@@ -1,0 +1,38 @@
+# 秘密情報・環境
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# 実行時データ（監査ログ・保留キュー）
+data/
+*.db
+*.sqlite
+
+# モデルファイル・大きな評価データ
+models/
+*.gguf
+*.bin
+eval/datasets/*.jsonl
+!eval/datasets/synthetic_v1.jsonl
+
+# エディタ・OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

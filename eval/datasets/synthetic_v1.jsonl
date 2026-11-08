@@ -26,7 +26,7 @@
 {"id": "pos-0219", "text": "お問い合わせの件です。先日の304699013985の件で、状況を教えてください。 連絡先: 担当窓口まで", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 14, "end": 26, "kind": "my_number"}], "genre": "inquiry", "note": "my_number"}
 {"id": "pos-0215", "text": "変更届 住所変更\n内容: 長谷川 七夏\n理由: 更新時期のため\n備考: なし", "has_pii": true, "kinds": ["person_name"], "spans": [{"start": 13, "end": 19, "kind": "person_name"}], "genre": "application", "note": "name"}
 {"id": "neg-0180", "text": "お世話になっております。先日の株式会社藤井システムズについて、対応をお願いします。 連絡先: 注文番号 2025-744610。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
-{"id": "neg-0214", "text": "日報 午前は資料作成、午後は訪問対応。 対応: 伝票 No.52074850。再訪予定。 所感: 愛知県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0214", "text": "日報 午前は資料作成、午後は訪問対応。 対応: 伝票 No.52074850。再訪予定。 所感: 福岡県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0059", "text": "変更届 住所変更\n申請内容: 製品コード AB-4951-5366\n理由: 更新時期のため\n松本支店", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0032", "text": "活動報告 終日訪問対応。 メモ: 株式会社山下工業。再訪予定。 課題: 090-****-2294", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0203", "text": "変更届 住所変更\n申請内容: 前田知実\n理由: 転居のため\n備考: 当座 7166363", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 15, "end": 19, "kind": "person_name"}, {"start": 34, "end": 44, "kind": "bank_account"}], "genre": "application", "note": "bank_account"}
@@ -40,7 +40,7 @@
 {"id": "neg-0186", "text": "活動報告 終日社内調整。 対応: 型番 506-4337。再訪予定。 所感: 注文番号 2025-686252", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0174", "text": "【定例】新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 4913-3412-3281-2061 に確認する\n- 備考: 特になし", "has_pii": true, "kinds": ["credit_card"], "spans": [{"start": 40, "end": 59, "kind": "credit_card"}], "genre": "minutes", "note": "credit_card"}
 {"id": "neg-0123", "text": "【定例】来期予算\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: ４６１万円 に確認する\n- 備考: 製品コード XZ-6148-1202", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
-{"id": "neg-0182", "text": "活動報告 終日電話対応。 訪問先: 福岡県内。再訪予定。 所感: 内線 2600", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0182", "text": "活動報告 終日電話対応。 訪問先: 宮城県内。再訪予定。 所感: 内線 2600", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0052", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 運用開始は来月\n- 参加者から: 内線 2376 を次回議題にする\n- 備考: 会議室 B-201", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0035", "text": "■議事録 新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 注文番号 2026-111901 に確認する\n- 備考: 2025年9月17日 13:00", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0005", "text": "申請書 住所変更\n対象: 製品コード XZ-9019-9646\n理由: 更新時期のため\n備考: 会議室 B-702", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
@@ -54,7 +54,7 @@
 {"id": "neg-0114", "text": "至急ご確認ください。本日の2026年3月7日 9:30の件で、対応をお願いします。 連絡先: 型番 632-5423。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0097", "text": "申請書 口座変更\n対象: 製品コード XZ-5529-6327\n理由: 業務上必要なため\n備考: 型番 828-5895", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0218", "text": "日報 終日社内調整。 訪問先: 熊本県立川市\n四区町5-17-5 シャルム623号室。再訪予定。 所感: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 16, "end": 42, "kind": "postal_address"}], "genre": "daily", "note": "address_newline"}
-{"id": "neg-0088", "text": "申請書 出張申請\n内容: 型番 200-4734\n理由: 転居のため\n備考: 福岡県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0088", "text": "申請書 出張申請\n内容: 型番 200-4734\n理由: 転居のため\n備考: 宮城県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0082", "text": "■議事録 来期予算\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 型番 545-4308 を次回議題にする\n- 備考: 注文番号 2026-370413", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0053", "text": "お世話になっております。昨日いただいた2024年2月28日 14:00について、状況を教えてください。 連絡先: 注文番号 2026-554197。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0050", "text": "【定例】来期予算\n- 決定事項: 担当を2名体制にする\n- 参加者から: 大田支店 の対応を優先する\n- 備考: 32件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
@@ -96,7 +96,7 @@
 {"id": "neg-0047", "text": "申請書 経費精算\n対象: 2025年4月3日 12:00\n理由: 更新時期のため\n補足: 注文番号 2024-272359", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0217", "text": "日報 終日社内調整。 訪問先: 073-872-9813。再訪予定。 課題: 特になし", "has_pii": true, "kinds": ["phone"], "spans": [{"start": 16, "end": 28, "kind": "phone"}], "genre": "daily", "note": "phone"}
 {"id": "neg-0173", "text": "申請書 住所変更\n内容: ３７１万円\n理由: 業務上必要なため\n備考: バージョン 8.19.0", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
-{"id": "neg-0207", "text": "本日の報告 終日訪問対応。 メモ: 注文番号 2026-819335。次回は来週。 課題: 愛知県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0207", "text": "本日の報告 終日訪問対応。 メモ: 注文番号 2026-819335。次回は来週。 課題: 福岡県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0151", "text": "活動報告 午後から社内調整。 メモ: 090-6908-2108。次回は来週。 所感: 特になし", "has_pii": true, "kinds": ["phone"], "spans": [{"start": 19, "end": 32, "kind": "phone"}], "genre": "daily", "note": "phone"}
 {"id": "pos-0031", "text": "変更届 出張申請\n内容: 740164005244\n理由: 更新時期のため\n備考: なし", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 13, "end": 25, "kind": "my_number"}], "genre": "application", "note": "my_number"}
 {"id": "pos-0123", "text": "申請書 経費精算\n申請内容: 前田 舞\n理由: 更新時期のため\n補足: 0229 0147 6792", "has_pii": true, "kinds": ["my_number", "person_name"], "spans": [{"start": 15, "end": 19, "kind": "person_name"}, {"start": 36, "end": 50, "kind": "my_number"}], "genre": "application", "note": "name_my_number"}
@@ -108,7 +108,7 @@
 {"id": "pos-0232", "text": "■議事録 請求書処理\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 島根県横浜市旭区竜泉1-7-19 パレス916号室 を次回議題にする\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 41, "end": 66, "kind": "postal_address"}], "genre": "minutes", "note": "address"}
 {"id": "pos-0090", "text": "本日の報告 午後から電話対応。 対応: 小川さゆり。要フォロー。 課題: 特になし", "has_pii": true, "kinds": ["person_name"], "spans": [{"start": 20, "end": 25, "kind": "person_name"}], "genre": "daily", "note": "name"}
 {"id": "pos-0082", "text": "日報 終日電話対応。 メモ: 加藤 七夏。再訪予定。 所感: 0120-441-428", "has_pii": true, "kinds": ["person_name", "phone"], "spans": [{"start": 15, "end": 20, "kind": "person_name"}, {"start": 31, "end": 43, "kind": "phone"}], "genre": "daily", "note": "name_phone"}
-{"id": "neg-0136", "text": "■議事録 来期予算\n- 決定事項: 担当を2名体制にする\n- 参加者から: 愛知県方面 を次回議題にする\n- 備考: 50件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
+{"id": "neg-0136", "text": "■議事録 来期予算\n- 決定事項: 担当を2名体制にする\n- 参加者から: 福岡県方面 を次回議題にする\n- 備考: 50件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0197", "text": "お問い合わせの件です。昨日いただいたバージョン 4.7.40の件で、状況を教えてください。 返信先 株式会社長谷川商事。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0157", "text": "お問い合わせの件です。本日の４１４万円に関して、折り返しのご連絡をお願いします。 ご連絡は 注文番号 2026-330545", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0073", "text": "【申請】備品購入\n対象: 林 淳\n理由: 業務上必要なため\n備考: 当座 2721135", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 13, "end": 16, "kind": "person_name"}, {"start": 34, "end": 44, "kind": "bank_account"}], "genre": "application", "note": "bank_account"}
@@ -135,7 +135,7 @@
 {"id": "pos-0240", "text": "本日の報告 午前は資料作成、午後は電話対応。 対応: 070-8121-5521。次回は来週。 所感: 特になし", "has_pii": true, "kinds": ["phone"], "spans": [{"start": 27, "end": 40, "kind": "phone"}], "genre": "daily", "note": "phone"}
 {"id": "neg-0115", "text": "【定例】新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 東京都の店舗 に確認する\n- 備考: バージョン 2.15.25", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0236", "text": "本日の報告 午後から訪問対応。 対応: 山口支店。要フォロー。 所感: 株式会社鈴木物産", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
-{"id": "neg-0150", "text": "日報 終日電話対応。 メモ: 愛知県内。要フォロー。 所感: 株式会社田中システムズ", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0150", "text": "日報 終日電話対応。 メモ: 福岡県内。要フォロー。 所感: 株式会社田中システムズ", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0204", "text": "【定例】新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 株式会社岡田システムズ の対応を優先する\n- 備考: 東京都内", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0247", "text": "申請書 備品購入\n対象: 57件の問い合わせ\n理由: 業務上必要なため\n８５５万円", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0056", "text": "申請書 住所変更\n対象: 伝票 No.96255361\n理由: 更新時期のため\n補足: 型番 921-9907", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
@@ -143,14 +143,14 @@
 {"id": "pos-0236", "text": "■議事録 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 兵庫県富里市\n南赤田2-24-13 シャルム319号室 の対応を優先する\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 38, "end": 65, "kind": "postal_address"}], "genre": "minutes", "note": "address_newline"}
 {"id": "pos-0049", "text": "【申請】住所変更\n申請内容: 734714345587\n理由: 業務上必要なため\nなし", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 15, "end": 27, "kind": "my_number"}], "genre": "application", "note": "my_number"}
 {"id": "pos-0041", "text": "打合せメモ 新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 埼玉県大田区丹勢4-3-11 の対応を優先する\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 42, "end": 56, "kind": "postal_address"}], "genre": "minutes", "note": "address"}
-{"id": "neg-0159", "text": "お問い合わせの件です。先日の愛知県内の件で、対応をお願いします。 返信先 注文番号 2024-292930", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
+{"id": "neg-0159", "text": "お問い合わせの件です。先日の福岡県内の件で、対応をお願いします。 返信先 注文番号 2024-292930", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0121", "text": "お問い合わせの件です。先日の田中 花子について、対応をお願いします。 返信先 4024-4550-2295", "has_pii": true, "kinds": ["my_number", "person_name"], "spans": [{"start": 14, "end": 19, "kind": "person_name"}, {"start": 39, "end": 53, "kind": "my_number"}], "genre": "inquiry", "note": "name_my_number"}
 {"id": "pos-0125", "text": "お世話になっております。先日の佐藤結衣の件で、状況を教えてください。 ご連絡は 担当窓口まで", "has_pii": true, "kinds": ["person_name"], "spans": [{"start": 15, "end": 19, "kind": "person_name"}], "genre": "inquiry", "note": "name"}
 {"id": "pos-0242", "text": "打合せメモ 問い合わせ対応フロー\n- 決定事項: 運用開始は来月\n- 参加者から: 渡辺明美 の対応を優先する\n- 備考: raoki@example.net", "has_pii": true, "kinds": ["email", "person_name"], "spans": [{"start": 42, "end": 46, "kind": "person_name"}, {"start": 62, "end": 79, "kind": "email"}], "genre": "minutes", "note": "name_email"}
 {"id": "neg-0060", "text": "本日の報告 午前は資料作成、午後は訪問対応。 訪問先: 会議室 B-601。要フォロー。 所感: 会議室 C-304", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0020", "text": "本日の報告 午後から訪問対応。 訪問先: 製品コード MK-8529-1266。次回は来週。 課題: 2025年1月14日 12:00", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0120", "text": "申請書 備品購入\n申請内容: 佐藤拓真\n理由: 業務上必要なため\n198327315859", "has_pii": true, "kinds": ["my_number", "person_name"], "spans": [{"start": 15, "end": 19, "kind": "person_name"}, {"start": 33, "end": 45, "kind": "my_number"}], "genre": "application", "note": "name_my_number"}
-{"id": "neg-0116", "text": "【定例】問い合わせ対応フロー\n- 決定事項: 運用開始は来月\n- 参加者から: 福岡県の店舗 に確認する\n- 備考: 山口支店", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
+{"id": "neg-0116", "text": "【定例】問い合わせ対応フロー\n- 決定事項: 運用開始は来月\n- 参加者から: 宮城県の店舗 に確認する\n- 備考: 山口支店", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "pos-0196", "text": "打合せメモ 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 0262 0672 4004 の対応を優先する\n- 備考: 特になし", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 39, "end": 53, "kind": "my_number"}], "genre": "minutes", "note": "my_number"}
 {"id": "pos-0122", "text": "お問い合わせの件です。本日の前田 真綾について、状況を教えてください。 ご連絡は 当座 8043620。", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 14, "end": 19, "kind": "person_name"}, {"start": 41, "end": 51, "kind": "bank_account"}], "genre": "inquiry", "note": "bank_account"}
 {"id": "neg-0015", "text": "変更届 口座変更\n申請内容: バージョン 7.1.35\n理由: 更新時期のため\n補足: 大阪府内", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
@@ -172,7 +172,7 @@
 {"id": "neg-0158", "text": "活動報告 終日社内調整。 訪問先: 090-****-7113。次回は来週。 課題: 製品コード AB-1082-7456", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0193", "text": "打合せメモ 新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 東京都内 を次回議題にする\n- 備考: 090-****-6703", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0229", "text": "お問い合わせの件です。本日の製品コード MK-8702-3975について、状況を教えてください。 ご連絡は 11件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
-{"id": "neg-0023", "text": "日報 午前は資料作成、午後は社内調整。 訪問先: 株式会社山崎システムズ。次回は来週。 課題: 愛知県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0023", "text": "日報 午前は資料作成、午後は社内調整。 訪問先: 株式会社山崎システムズ。次回は来週。 課題: 福岡県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0160", "text": "【申請】口座変更\n申請内容: 型番 918-1891\n理由: 更新時期のため\n備考: 型番 662-2198", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0141", "text": "お問い合わせの件です。本日の製品コード MK-4675-7371について、対応をお願いします。 返信先 090-****-1769 までお願いします。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0003", "text": "日報 終日社内調整。 訪問先: 注文番号 2026-789237。再訪予定。 所感: 松本支店", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
@@ -211,7 +211,7 @@
 {"id": "neg-0231", "text": "【定例】来期予算\n- 決定事項: 担当を2名体制にする\n- 参加者から: 090-****-6293 に確認する\n- 備考: 型番 845-1691", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "pos-0114", "text": "至急ご確認ください。先日の佐々木 真綾について、状況を教えてください。 ご連絡は 当座 8684678 までお願いします。", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 13, "end": 19, "kind": "person_name"}, {"start": 41, "end": 51, "kind": "bank_account"}], "genre": "inquiry", "note": "bank_account"}
 {"id": "pos-0084", "text": "活動報告 午前は資料作成、午後は電話対応。 対応: 田中稔。要フォロー。 所感: 特になし", "has_pii": true, "kinds": ["person_name"], "spans": [{"start": 26, "end": 29, "kind": "person_name"}], "genre": "daily", "note": "name"}
-{"id": "neg-0248", "text": "変更届 住所変更\n内容: 株式会社高橋工業\n理由: 業務上必要なため\n愛知県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0248", "text": "変更届 住所変更\n内容: 株式会社高橋工業\n理由: 業務上必要なため\n福岡県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0075", "text": "■議事録 請求書処理\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: ９９万円 の対応を優先する\n- 備考: 94件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0244", "text": "至急ご確認ください。先日の48件の問い合わせについて、折り返しのご連絡をお願いします。 返信先 製品コード AB-4784-9710 までお願いします。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0218", "text": "■議事録 来期予算\n- 決定事項: 運用開始は来月\n- 参加者から: 伝票 No.43204998 を次回議題にする\n- 備考: 090-****-8260", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
@@ -248,7 +248,7 @@
 {"id": "pos-0207", "text": "本日の報告 終日訪問対応。 メモ: 〒677-1945 茨城県鎌ケ谷市中川崎5-15-10。次回は来週。 課題: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 18, "end": 45, "kind": "postal_address"}], "genre": "daily", "note": "postal_address"}
 {"id": "neg-0221", "text": "申請書 出張申請\n内容: 伝票 No.22019737\n理由: 業務上必要なため\n備考: 内線 7753", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0128", "text": "日報 終日訪問対応。 メモ: 前田翔太。再訪予定。 所感: atsushishimizu@example.org", "has_pii": true, "kinds": ["email", "person_name"], "spans": [{"start": 15, "end": 19, "kind": "person_name"}, {"start": 30, "end": 56, "kind": "email"}], "genre": "daily", "note": "name_email"}
-{"id": "neg-0001", "text": "申請書 口座変更\n対象: 福岡県の店舗\n理由: 転居のため\n備考: 福島支店", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0001", "text": "申請書 口座変更\n対象: 宮城県の店舗\n理由: 転居のため\n備考: 福島支店", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0238", "text": "至急ご確認ください。先日の2025年5月18日 14:30について、対応をお願いします。 返信先 ７６１万円", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0060", "text": "打合せメモ 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 佐藤 花子 を次回議題にする\n- 備考: 070-5941-2983", "has_pii": true, "kinds": ["person_name", "phone"], "spans": [{"start": 39, "end": 44, "kind": "person_name"}, {"start": 60, "end": 73, "kind": "phone"}], "genre": "minutes", "note": "name_phone"}
 {"id": "pos-0077", "text": "【申請】住所変更\n内容: 4569-8169-3406-0884\n理由: 転居のため\n補足: なし", "has_pii": true, "kinds": ["credit_card"], "spans": [{"start": 13, "end": 32, "kind": "credit_card"}], "genre": "application", "note": "credit_card"}
@@ -272,7 +272,7 @@
 {"id": "neg-0102", "text": "打合せメモ 請求書処理\n- 決定事項: 運用開始は来月\n- 参加者から: バージョン 6.11.33 を次回議題にする\n- 備考: 090-****-8598", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0022", "text": "お問い合わせの件です。昨日いただいた090-****-4836の件で、対応をお願いします。 連絡先: 東京都内", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0248", "text": "活動報告 午後から社内調整。 メモ: 大分県小笠原村中三依4-4-1 シャルム555号室。要フォロー。 課題: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 19, "end": 44, "kind": "postal_address"}], "genre": "daily", "note": "address"}
-{"id": "neg-0242", "text": "活動報告 終日社内調整。 メモ: 愛知県内。再訪予定。 課題: 会議室 C-201", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0242", "text": "活動報告 終日社内調整。 メモ: 福岡県内。再訪予定。 課題: 会議室 C-201", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0050", "text": "【定例】来期予算\n- 決定事項: 運用開始は来月\n- 参加者から: 福田知実 に確認する\n- 備考: 当座 7838382", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 34, "end": 38, "kind": "person_name"}, {"start": 51, "end": 61, "kind": "bank_account"}], "genre": "minutes", "note": "bank_account"}
 {"id": "neg-0010", "text": "本日の報告 午前は資料作成、午後は訪問対応。 メモ: 松本支店。再訪予定。 課題: 090-****-4683", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0194", "text": "お世話になっております。昨日いただいた大分県横浜市保土ケ谷区\n太田ヶ谷3-23-16 パレス382号室について、状況を教えてください。 返信先 担当窓口まで までお願いします。", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 19, "end": 51, "kind": "postal_address"}], "genre": "inquiry", "note": "address_newline"}
@@ -300,9 +300,9 @@
 {"id": "pos-0009", "text": "本日の報告 終日社内調整。 対応: 佐藤翔太。要フォロー。 所感: 328710122690", "has_pii": true, "kinds": ["my_number", "person_name"], "spans": [{"start": 18, "end": 22, "kind": "person_name"}, {"start": 34, "end": 46, "kind": "my_number"}], "genre": "daily", "note": "name_my_number"}
 {"id": "pos-0072", "text": "■議事録 請求書処理\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 青森県匝瑳市細野2-10-1 に確認する\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 41, "end": 55, "kind": "postal_address"}], "genre": "minutes", "note": "address"}
 {"id": "neg-0201", "text": "【申請】口座変更\n申請内容: 製品コード MK-9071-1108\n理由: 更新時期のため\n補足: 71件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
-{"id": "neg-0129", "text": "本日の報告 終日訪問対応。 訪問先: 68件の問い合わせ。再訪予定。 所感: 愛知県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0129", "text": "本日の報告 終日訪問対応。 訪問先: 68件の問い合わせ。再訪予定。 所感: 福岡県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0132", "text": "【定例】新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 斎藤裕太 の対応を優先する\n- 備考: 127799799553", "has_pii": true, "kinds": ["my_number", "person_name"], "spans": [{"start": 37, "end": 41, "kind": "person_name"}, {"start": 57, "end": 69, "kind": "my_number"}], "genre": "minutes", "note": "name_my_number"}
-{"id": "neg-0017", "text": "本日の報告 午前は資料作成、午後は社内調整。 訪問先: ５３７万円。要フォロー。 所感: 愛知県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0017", "text": "本日の報告 午前は資料作成、午後は社内調整。 訪問先: ５３７万円。要フォロー。 所感: 福岡県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0029", "text": "本日の報告 午後から訪問対応。 訪問先: 2025年2月8日 16:00。要フォロー。 課題: 内線 6185", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0104", "text": "【申請】住所変更\n申請内容: 〒925-5835 鹿児島県夷隅郡御宿町戸島3-26-4\n理由: 更新時期のため\nなし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 15, "end": 43, "kind": "postal_address"}], "genre": "application", "note": "postal_address"}
 {"id": "pos-0108", "text": "お世話になっております。本日の〒730-7686 新潟県世田谷区渡辺3-2-12 アーバン1011号室について、対応をお願いします。 ご連絡は 担当窓口まで。", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 15, "end": 51, "kind": "postal_address"}], "genre": "inquiry", "note": "postal_address"}
@@ -312,12 +312,12 @@
 {"id": "neg-0241", "text": "お世話になっております。先日の14件の問い合わせについて、折り返しのご連絡をお願いします。 ご連絡は 伝票 No.23254482", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0241", "text": "【定例】来期予算\n- 決定事項: 運用開始は来月\n- 参加者から: 〒209-3219 群馬県長生郡一宮町今戸3-1-13 クレスト879号室 の対応を優先する\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 34, "end": 71, "kind": "postal_address"}], "genre": "minutes", "note": "postal_address"}
 {"id": "pos-0230", "text": "活動報告 午前は資料作成、午後は社内調整。 訪問先: 4718702621745963。次回は来週。 課題: 特になし", "has_pii": true, "kinds": ["credit_card"], "spans": [{"start": 27, "end": 43, "kind": "credit_card"}], "genre": "daily", "note": "credit_card"}
-{"id": "neg-0087", "text": "変更届 住所変更\n申請内容: 福岡県の店舗\n理由: 業務上必要なため\n補足: 内線 5965", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0087", "text": "変更届 住所変更\n申請内容: 宮城県の店舗\n理由: 業務上必要なため\n補足: 内線 5965", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0056", "text": "本日の報告 午前は資料作成、午後は社内調整。 メモ: 渡辺 美加子。次回は来週。 所感: nanami80@example.net", "has_pii": true, "kinds": ["email", "person_name"], "spans": [{"start": 27, "end": 33, "kind": "person_name"}, {"start": 45, "end": 65, "kind": "email"}], "genre": "daily", "note": "name_email"}
 {"id": "pos-0175", "text": "【定例】請求書処理\n- 決定事項: 担当を2名体制にする\n- 参加者から: 〒525-8933 奈良県西多摩郡日の出町上野公園4-7-11 の対応を優先する\n- 備考: 特になし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 38, "end": 69, "kind": "postal_address"}], "genre": "minutes", "note": "postal_address"}
 {"id": "pos-0007", "text": "変更届 経費精算\n申請内容: 滋賀県富里市\n明石町3-3-7\n理由: 更新時期のため\n備考: なし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 15, "end": 30, "kind": "postal_address"}], "genre": "application", "note": "address_newline"}
 {"id": "pos-0147", "text": "申請書 住所変更\n内容: 田中 知実\n理由: 業務上必要なため\n備考: 033-139-5700", "has_pii": true, "kinds": ["person_name", "phone"], "spans": [{"start": 13, "end": 18, "kind": "person_name"}, {"start": 36, "end": 48, "kind": "phone"}], "genre": "application", "note": "name_phone"}
-{"id": "neg-0137", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 担当を2名体制にする\n- 参加者から: 愛知県方面 の対応を優先する\n- 備考: 型番 235-3913", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
+{"id": "neg-0137", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 担当を2名体制にする\n- 参加者から: 福岡県方面 の対応を優先する\n- 備考: 型番 235-3913", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0067", "text": "お問い合わせの件です。先日の内線 2274について、状況を教えてください。 ご連絡は 注文番号 2026-193035。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0122", "text": "お問い合わせの件です。昨日いただいた2026年11月15日 11:30の件で、対応をお願いします。 連絡先: 97件の問い合わせ。", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "neg-0164", "text": "【申請】経費精算\n対象: 2025年6月25日 13:30\n理由: 更新時期のため\n補足: 注文番号 2026-736095", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
@@ -392,7 +392,7 @@
 {"id": "neg-0153", "text": "打合せメモ 来期予算\n- 決定事項: 担当を2名体制にする\n- 参加者から: 19件の問い合わせ を次回議題にする\n- 備考: 型番 257-1389", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "pos-0046", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 担当を2名体制にする\n- 参加者から: 加藤 涼平 を次回議題にする\n- 備考: 当座 7705062", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 44, "end": 49, "kind": "person_name"}, {"start": 65, "end": 75, "kind": "bank_account"}], "genre": "minutes", "note": "bank_account"}
 {"id": "neg-0008", "text": "活動報告 午後から社内調整。 メモ: 注文番号 2026-274971。再訪予定。 所感: 注文番号 2024-429861", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
-{"id": "neg-0044", "text": "【申請】出張申請\n内容: 愛知県内\n理由: 転居のため\n伝票 No.66346728", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0044", "text": "【申請】出張申請\n内容: 福岡県内\n理由: 転居のため\n伝票 No.66346728", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0192", "text": "打合せメモ 新システム移行\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 製品コード XZ-7544-6785 を次回議題にする\n- 備考: ４２５万円", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0135", "text": "変更届 出張申請\n対象: 会議室 C-405\n理由: 業務上必要なため\n備考: 090-****-8419", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0228", "text": "お問い合わせの件です。昨日いただいた群馬県武蔵野市中小来川4-15-19 コーポ563号室について、対応をお願いします。 返信先 担当窓口まで", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 18, "end": 45, "kind": "postal_address"}], "genre": "inquiry", "note": "address"}
@@ -402,7 +402,7 @@
 {"id": "pos-0025", "text": "■議事録 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 斎藤 直樹 を次回議題にする\n- 備考: 080-2964-5033", "has_pii": true, "kinds": ["person_name", "phone"], "spans": [{"start": 38, "end": 43, "kind": "person_name"}, {"start": 59, "end": 72, "kind": "phone"}], "genre": "minutes", "note": "name_phone"}
 {"id": "pos-0078", "text": "お世話になっております。先日の大分県利島村\n上吉羽4-23-20の件で、対応をお願いします。 ご連絡は 担当窓口まで。", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 15, "end": 32, "kind": "postal_address"}], "genre": "inquiry", "note": "address_newline"}
 {"id": "neg-0245", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 担当を2名体制にする\n- 参加者から: 型番 283-7802 を次回議題にする\n- 備考: 製品コード MK-6864-8515", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
-{"id": "neg-0107", "text": "本日の報告 終日電話対応。 対応: 金沢支店。要フォロー。 課題: 愛知県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0107", "text": "本日の報告 終日電話対応。 対応: 金沢支店。要フォロー。 課題: 福岡県内", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0007", "text": "お世話になっております。本日の製品コード AB-7116-3316に関して、状況を教えてください。 ご連絡は 会議室 A-707", "has_pii": false, "kinds": [], "spans": [], "genre": "inquiry", "note": "hard_negative"}
 {"id": "pos-0167", "text": "変更届 住所変更\n対象: 高橋 陽一\n理由: 更新時期のため\n補足: kenichi31@example.net", "has_pii": true, "kinds": ["email", "person_name"], "spans": [{"start": 13, "end": 18, "kind": "person_name"}, {"start": 35, "end": 56, "kind": "email"}], "genre": "application", "note": "name_email"}
 {"id": "pos-0076", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 担当を2名体制にする\n- 参加者から: 6774-9649-9093 に確認する\n- 備考: 特になし", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 44, "end": 58, "kind": "my_number"}], "genre": "minutes", "note": "my_number"}
@@ -414,7 +414,7 @@
 {"id": "pos-0156", "text": "■議事録 請求書処理\n- 決定事項: 運用開始は来月\n- 参加者から: 渡辺 裕美子 を次回議題にする\n- 備考: 特になし", "has_pii": true, "kinds": ["person_name"], "spans": [{"start": 36, "end": 42, "kind": "person_name"}], "genre": "minutes", "note": "name"}
 {"id": "pos-0027", "text": "【定例】請求書処理\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 4171822782489639 に確認する\n- 備考: 特になし", "has_pii": true, "kinds": ["credit_card"], "spans": [{"start": 40, "end": 56, "kind": "credit_card"}], "genre": "minutes", "note": "credit_card"}
 {"id": "neg-0185", "text": "申請書 経費精算\n申請内容: 注文番号 2025-783226\n理由: 更新時期のため\n備考: 090-****-9783", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
-{"id": "neg-0073", "text": "■議事録 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 伝票 No.35499255 の対応を優先する\n- 備考: 愛知県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
+{"id": "neg-0073", "text": "■議事録 新システム移行\n- 決定事項: 運用開始は来月\n- 参加者から: 伝票 No.35499255 の対応を優先する\n- 備考: 福岡県方面", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0148", "text": "日報 終日訪問対応。 訪問先: 型番 439-6424。再訪予定。 所感: 伝票 No.92984217", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0074", "text": "申請書 住所変更\n申請内容: 千葉支店\n理由: 更新時期のため\n72件の問い合わせ", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "pos-0005", "text": "変更届 住所変更\n申請内容: 木村 裕樹\n理由: 業務上必要なため\n備考: 普通 3871230", "has_pii": true, "kinds": ["bank_account", "person_name"], "spans": [{"start": 15, "end": 20, "kind": "person_name"}, {"start": 38, "end": 48, "kind": "bank_account"}], "genre": "application", "note": "bank_account"}
@@ -435,7 +435,7 @@
 {"id": "pos-0040", "text": "お世話になっております。昨日いただいた神奈川県横浜市港南区\n台場5-7-9 パレス994号室に関して、対応をお願いします。 返信先 担当窓口まで。", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 19, "end": 46, "kind": "postal_address"}], "genre": "inquiry", "note": "address_newline"}
 {"id": "pos-0195", "text": "本日の報告 終日電話対応。 メモ: 4787-4296-7175-6551。次回は来週。 課題: 特になし", "has_pii": true, "kinds": ["credit_card"], "spans": [{"start": 18, "end": 37, "kind": "credit_card"}], "genre": "daily", "note": "credit_card"}
 {"id": "neg-0195", "text": "【定例】新システム移行\n- 決定事項: 担当を2名体制にする\n- 参加者から: 製品コード MK-5821-6570 に確認する\n- 備考: バージョン 9.8.68", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
-{"id": "neg-0163", "text": "申請書 出張申請\n申請内容: 長野支店\n理由: 転居のため\n補足: 福岡県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0163", "text": "申請書 出張申請\n申請内容: 長野支店\n理由: 転居のため\n補足: 宮城県の店舗", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0124", "text": "打合せメモ 請求書処理\n- 決定事項: 担当を2名体制にする\n- 参加者から: 株式会社山本商事 の対応を優先する\n- 備考: 型番 844-5072", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0225", "text": "申請書 備品購入\n対象: ２０２万円\n理由: 転居のため\n補足: 注文番号 2025-215717", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0212", "text": "変更届 備品購入\n申請内容: 会議室 C-903\n理由: 業務上必要なため\n備考: 内線 9363", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
@@ -477,10 +477,10 @@
 {"id": "pos-0048", "text": "【申請】出張申請\n対象: 〒727-9270 福岡県印西市高田馬場4-27-18\n理由: 業務上必要なため\n補足: なし", "has_pii": true, "kinds": ["postal_address"], "spans": [{"start": 13, "end": 40, "kind": "postal_address"}], "genre": "application", "note": "postal_address"}
 {"id": "pos-0079", "text": "日報 終日訪問対応。 訪問先: 吉田 花子。次回は来週。 課題: 047-217-9922", "has_pii": true, "kinds": ["person_name", "phone"], "spans": [{"start": 16, "end": 21, "kind": "person_name"}, {"start": 33, "end": 45, "kind": "phone"}], "genre": "daily", "note": "name_phone"}
 {"id": "neg-0230", "text": "【定例】来期予算\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: 東京都内 の対応を優先する\n- 備考: 東京都方面", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
-{"id": "neg-0224", "text": "本日の報告 午前は資料作成、午後は訪問対応。 メモ: 福岡県の店舗。次回は来週。 所感: 製品コード XZ-4924-9464", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
+{"id": "neg-0224", "text": "本日の報告 午前は資料作成、午後は訪問対応。 メモ: 宮城県の店舗。次回は来週。 所感: 製品コード XZ-4924-9464", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0042", "text": "日報 終日訪問対応。 対応: 会議室 B-408。再訪予定。 所感: バージョン 4.17.97", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "neg-0034", "text": "■議事録 問い合わせ対応フロー\n- 決定事項: 次回までにドラフトを作る\n- 参加者から: １２８万円 の対応を優先する\n- 備考: 会議室 C-105", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
-{"id": "neg-0011", "text": "【申請】出張申請\n内容: 福岡県方面\n理由: 更新時期のため\n補足: 会議室 A-509", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
+{"id": "neg-0011", "text": "【申請】出張申請\n内容: 宮城県方面\n理由: 更新時期のため\n補足: 会議室 A-509", "has_pii": false, "kinds": [], "spans": [], "genre": "application", "note": "hard_negative"}
 {"id": "neg-0033", "text": "■議事録 請求書処理\n- 決定事項: 運用開始は来月\n- 参加者から: 会議室 C-205 を次回議題にする\n- 備考: ７５７万円", "has_pii": false, "kinds": [], "spans": [], "genre": "minutes", "note": "hard_negative"}
 {"id": "neg-0220", "text": "活動報告 終日社内調整。 対応: 注文番号 2026-665484。次回は来週。 所感: 型番 866-8126", "has_pii": false, "kinds": [], "spans": [], "genre": "daily", "note": "hard_negative"}
 {"id": "pos-0141", "text": "日報 終日訪問対応。 メモ: 505423573320。要フォロー。 課題: 特になし", "has_pii": true, "kinds": ["my_number"], "spans": [{"start": 15, "end": 27, "kind": "my_number"}], "genre": "daily", "note": "my_number"}

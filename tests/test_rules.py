@@ -91,7 +91,7 @@ def test_credit_card_luhn(det):
 
 
 def test_address_with_block_number(det):
-    f = det.detect("住所 愛知県名古屋市中区栄3-5-12 サンプルビル4F")
+    f = det.detect("住所 大阪府大阪市北区梅田1-2-3 サンプルビル4F")
     assert "postal_address" in kinds(f)
     assert any(x.confidence >= 0.9 for x in f if x.kind == "postal_address")
 
@@ -129,7 +129,7 @@ def test_plain_business_text_has_no_findings(det):
 
 
 def test_postal_code_inside_address_is_deduped(det):
-    f = det.detect("〒460-0008 愛知県名古屋市中区栄3-5-12")
+    f = det.detect("〒100-0005 東京都千代田区丸の内1-1-1")
     addr = [x for x in f if x.kind == "postal_address"]
     # 〒付き郵便番号と住所本体の2件。重複した包含はない
     assert len(addr) == 2

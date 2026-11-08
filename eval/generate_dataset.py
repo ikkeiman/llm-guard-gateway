@@ -160,7 +160,7 @@ class Gen:
             lambda: f"会議室 {r.choice('ABC')}-{r.randint(1, 9)}0{r.randint(1, 9)}",
             lambda: f"型番 {r.randint(100, 999)}-{r.randint(1000, 9999)}",  # 郵便番号に見える
             lambda: (
-                f"{r.choice(['東京都', '大阪府', '愛知県', '福岡県'])}"
+                f"{r.choice(['東京都', '大阪府', '福岡県', '宮城県'])}"
                 f"{r.choice(['内', 'の店舗', '方面'])}"
             ),
             lambda: f"バージョン {r.randint(1, 9)}.{r.randint(0, 20)}.{r.randint(0, 99)}",

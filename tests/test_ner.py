@@ -45,7 +45,7 @@ def test_not_ready_detector_is_skipped_gracefully():
 
 
 def test_org_and_place_suffixes_are_filtered():
-    assert names("訪問先: 長野支店。所感: 愛知県内の店舗") == []
+    assert names("訪問先: 長野支店。所感: 福岡県内の店舗") == []
 
 
 def test_trailing_newline_is_not_part_of_the_name():

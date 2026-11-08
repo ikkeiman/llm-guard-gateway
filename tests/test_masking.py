@@ -38,11 +38,11 @@ def test_restore_puts_values_back():
 
 
 def test_overlapping_spans_are_merged_keeping_higher_confidence():
-    t = "〒460-0008 愛知県名古屋市中区栄3-5-12"
+    t = "〒100-0005 東京都千代田区丸の内1-1-1"
     whole = Finding(
         kind=Kind.POSTAL_ADDRESS, start=0, end=len(t), text=t, confidence=0.7, stage="t"
     )
-    code = span(t, "〒460-0008", Kind.POSTAL_ADDRESS, conf=0.9)
+    code = span(t, "〒100-0005", Kind.POSTAL_ADDRESS, conf=0.9)
     merged = merge_spans([whole, code])
     assert len(merged) == 1
     assert (merged[0].start, merged[0].end) == (0, len(t))

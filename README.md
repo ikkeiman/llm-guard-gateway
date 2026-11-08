@@ -205,7 +205,7 @@ Stage 1 の定義。1ルールは正規表現・検証関数（`my_number_check_
 - **`stream: true` は未対応**（400 を返します）。応答の検査・復元のために全文を受け取る設計です
 - Stage 3 は Ollama の `/api/chat` 専用です。モデルは `qwen2.5:7b-instruct` で設計しましたが、この README を書いた環境では実行していません
 - 画像・ファイルなど文字列以外の入力は検査しません（`content` 配列の `text` パーツだけを見ます）
-- Dockerfile と docker-compose.yml は、この README を書いた環境では Docker デーモンが無く動作確認できていません。ローカルの `uv` での手順（macOS / Linux）とテスト（72 件）・評価は実行済みです。Windows での起動手順は記載していますが未検証です
+- Dockerfile と docker-compose.yml は、この README を書いた環境では Docker デーモンが無く動作確認できていません。ローカルの `uv` での起動は Linux と Windows 11 で確認済みです（Windows では Stage 1・2 が動き、`/v1/inspect` が期待どおり mask を返すことを確認）。テスト（72 件）と評価は Linux で実行しました
 
 ## 開発
 

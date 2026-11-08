@@ -163,7 +163,7 @@ def render(
             label += f"（{', '.join(r['missing_stages'])} 未ロード）"
         lines.append(
             f"| {label} | {pct(r['miss_rate'])} | {pct(r['overblock_rate'])} | {dec} "
-            f"| {r["p50_ms"]:.2f} ms | {r["p95_ms"]:.2f} ms |"
+            f"| {r['p50_ms']:.2f} ms | {r['p95_ms']:.2f} ms |"
         )
     for name, why in skipped.items():
         lines.append(f"| {LABELS[name]} | 未実測 | 未実測 | {why} | - | - |")

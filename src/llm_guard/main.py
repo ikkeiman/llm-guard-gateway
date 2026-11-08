@@ -52,7 +52,7 @@ def create_app(
     policy = load_policy(settings.policy_path)
 
     if guard is None:
-        guard = build_guard(policy, settings)
+        guard = build_guard(policy, settings, preload_ner=True)
 
     forwarder = forwarder or OpenAICompatForwarder(
         settings.openai_base_url, settings.openai_api_key, settings.openai_model
@@ -76,7 +76,14 @@ def create_app(
             "version": __version__,
             "mode": guard.policy.mode,
             "stages": {
-                **{d.name: {"enabled": True, "ready": d.ready()} for d in guard.detectors},
+                **{
+                    d.name: {
+                        "enabled": True,
+                        "ready": d.ready(),
+                        **({"loaded": d.loaded()} if hasattr(d, "loaded") else {}),
+                    }
+                    for d in guard.detectors
+                },
                 "llm_judge": {
                     "enabled": guard.judge_enabled(),
                     "policy": guard.policy.stages.llm_judge,

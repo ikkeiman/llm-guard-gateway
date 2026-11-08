@@ -1,0 +1,120 @@
+# Stage 1: ルール検査の定義。
+# pattern は正規化後（全角→半角）の文に対して適用する。validator は VALIDATORS（src/llm_guard/validators.py）の名前。
+# context_keywords が検出位置の前後 context_window 文字以内にあれば confidence_with_context を使う。
+# confidence は 0〜1。policy.yaml の thresholds と組み合わせて allow / mask / block / review が決まる。
+# ここにあるのは一般的な日本の個人情報の形式だけで、特定の組織のルールは含まない。
+
+rules:
+  - name: my_number
+    kind: my_number
+    description: 個人番号（12桁）。チェックディジットが合わなければ検出しない
+    pattern: '(?<![0-9-])[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}(?![0-9-])'
+    validator: my_number_check_digit
+    confidence: 0.70
+    context_keywords: [マイナンバー, 個人番号, 通知カード]
+    confidence_with_context: 0.98
+
+  - name: credit_card
+    kind: credit_card
+    description: クレジットカード番号（13〜19桁、Luhn 検証）
+    pattern: '(?<![0-9])(?:[0-9][ -]?){12,18}[0-9](?![0-9])'
+    validator: luhn
+    confidence: 0.85
+    context_keywords: [カード, card, VISA, Master, JCB, 有効期限]
+    confidence_with_context: 0.97
+
+  - name: phone_mobile
+    kind: phone
+    description: 携帯電話（070/080/090）
+    pattern: '(?<![0-9])0[789]0[ -]?[0-9]{4}[ -]?[0-9]{4}(?![0-9])'
+    validator: jp_phone_digits
+    confidence: 0.85
+    context_keywords: [TEL, Tel, tel, 電話, 携帯, 連絡先, 📞]
+    confidence_with_context: 0.95
+
+  - name: phone_ip
+    kind: phone
+    description: IP 電話（050）
+    pattern: '(?<![0-9])050[ -]?[0-9]{4}[ -]?[0-9]{4}(?![0-9])'
+    validator: jp_phone_digits
+    confidence: 0.80
+    context_keywords: [TEL, Tel, tel, 電話, 連絡先]
+    confidence_with_context: 0.95
+
+  - name: phone_tollfree
+    kind: phone
+    description: フリーダイヤル（0120 / 0800）
+    pattern: '(?<![0-9])(?:0120[ -]?[0-9]{3}[ -]?[0-9]{3}|0800[ -]?[0-9]{3}[ -]?[0-9]{4})(?![0-9])'
+    confidence: 0.80
+    context_keywords: [TEL, 電話, 連絡先, 窓口]
+    confidence_with_context: 0.90
+
+  - name: phone_landline
+    kind: phone
+    description: 固定電話。区切りがある形式だけを対象（数字だけの10桁は注文番号等と区別できない）
+    pattern: '(?<![0-9])0[1-9](?:[0-9]{0,3}-[0-9]{1,4}-|\([0-9]{1,4}\)[0-9]{1,4}-?)[0-9]{4}(?![0-9])'
+    validator: jp_phone_digits
+    confidence: 0.75
+    context_keywords: [TEL, Tel, tel, 電話, 連絡先, FAX, Fax]
+    confidence_with_context: 0.95
+
+  - name: email
+    kind: email
+    description: メールアドレス
+    pattern: '[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}'
+    confidence: 0.95
+
+  - name: postal_code_marked
+    kind: postal_address
+    description: 〒付きの郵便番号
+    pattern: '〒 ?[0-9]{3}-?[0-9]{4}(?![0-9])'
+    confidence: 0.90
+
+  - name: postal_code_bare
+    kind: postal_address
+    description: 〒なしの 3-4 桁。伝票番号などと区別できないので低め
+    pattern: '(?<![0-9-])[0-9]{3}-[0-9]{4}(?![0-9-])'
+    confidence: 0.35
+    context_keywords: [郵便番号, 〒, 住所]
+    confidence_with_context: 0.85
+
+  - name: address_with_block
+    kind: postal_address
+    description: 都道府県から始まり、市区町村と丁目・番地まで続く住所。改行や空白を1つまたいでもよい
+    pattern: '(?:東京都|北海道|(?:京都|大阪)府|[一-龥]{2,3}県)\s?[一-龥ぁ-んァ-ヶー]{1,12}?(?:市|区|郡|町|村)\s?[一-龥ぁ-んァ-ヶー]{0,16}?(?:[0-9]{1,4}(?:丁目|番地|番|号|-)\s?)+[0-9]{0,4}(?:号|番)?(?:\s?[一-龥ぁ-んァ-ヶーA-Za-z0-9]{1,20}(?:[0-9]{1,4}号室|[0-9]{1,4}号|[0-9]{3,4}))?'
+    confidence: 0.70
+    context_keywords: [住所, 所在地, 送付先, 〒]
+    confidence_with_context: 0.90
+
+  - name: address_area_only
+    kind: postal_address
+    description: 都道府県＋市区町村だけ。地名の言及と区別できないので、単独では判定に使わない低さ
+    pattern: '(?:東京都|北海道|(?:京都|大阪)府|[一-龥]{2,3}県)[一-龥ぁ-んァ-ヶー]{1,12}?(?:市|区|郡|町|村)'
+    confidence: 0.30
+    context_keywords: [住所, 所在地, 送付先]
+    confidence_with_context: 0.60
+
+  - name: bank_account_typed
+    kind: bank_account
+    description: 預金種目＋7桁の口座番号
+    pattern: '(?:普通|当座|貯蓄)(?:預金)?(?:口座)?\s?(?:No\.?|番号)?\s?[:：]?\s?[0-9]{7}(?![0-9])'
+    confidence: 0.85
+
+  - name: bank_account_labeled
+    kind: bank_account
+    description: 「口座番号」ラベル＋7桁
+    pattern: '口座(?:番号)?\s?[:：]?\s?[0-9]{7}(?![0-9])'
+    confidence: 0.85
+
+  - name: bank_branch_and_account
+    kind: bank_account
+    description: 支店番号（3桁）＋口座番号（7桁）の並び
+    pattern: '(?:支店|店番|店舗)(?:コード|番号)?\s?[:：]?\s?[0-9]{3}[^0-9]{1,12}[0-9]{7}(?![0-9])'
+    confidence: 0.80
+
+  - name: person_name_labeled
+    kind: person_name
+    description: 「氏名:」などのラベルに続く氏名。姓名の間に空白があってもよい。本格的な氏名検出は Stage 2
+    pattern: '(?:氏名|お名前|名前|担当者|申請者|依頼者|報告者|お客様名|契約者)\s?[:：]\s?([^\s、。,.（）()]{1,5}(?:[ 　][^\s、。,.（）()]{1,5})?)'
+    group: 1
+    confidence: 0.70

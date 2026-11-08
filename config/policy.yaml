@@ -1,0 +1,38 @@
+# 判定ポリシー。閾値とモードを変えるだけで「見逃し」と「止めすぎ」のバランスを業務ごとに調整できる。
+
+# 検出時の既定の振る舞い: mask | block | review
+#   mask   = 検出箇所を <PHONE_1> などに置き換えて外部 LLM へ送る（禁止だけだと現場が使わなくなるため既定）
+#   block  = 拒否して理由を返す
+#   review = 保留キューに入れて人の確認に回す
+mode: mask
+
+stages:
+  rules: on
+  ner: on
+  llm_judge: on_uncertain    # always | on_uncertain | off
+
+thresholds:
+  block_at: 0.90             # これ以上の confidence は確定検出として扱う
+  uncertain_low: 0.40        # この帯（low 以上 high 未満）は Stage 3 のローカル LLM 判定に回す
+  uncertain_high: 0.90
+
+# 種類ごとに「最低でもこの強さで扱う」を決められる。mode が mask でも個人番号とカード番号は止める
+kinds:
+  my_number: { min_action: block }
+  credit_card: { min_action: block }
+
+# Stage 3 が JSON を返せない・タイムアウトしたとき
+on_judge_error: review
+# Stage 3 だけが「機微」と判断し、位置が特定できる検出が無いとき（マスクする場所がない）
+on_judge_only_detection: review
+# llm_judge が off のときに不確実帯の検出をどう扱うか
+uncertain_without_judge: mask
+
+llm_judge:
+  model: qwen2.5:7b-instruct
+  timeout_seconds: 8
+  max_retries: 1
+
+masking:
+  # true にすると、応答の中のプレースホルダを元の値に戻して利用者に返す（外部 LLM には渡っていない）
+  restore_in_response: false

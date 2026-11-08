@@ -56,7 +56,11 @@ class Guard:
     judge_name: str = "llm_judge"
 
     def judge_enabled(self) -> bool:
-        return self.judge is not None and self.policy.stages.llm_judge != "off"
+        """Stage 3 を使える状態か。設定で有効で、かつ接続先に届くこと。"""
+        if self.judge is None or self.policy.stages.llm_judge == "off":
+            return False
+        reachable = getattr(self.judge, "reachable", None)
+        return True if reachable is None else bool(reachable())
 
     def inspect(self, text: str, mask_map: MaskMap | None = None) -> InspectionResult:
         t0 = time.perf_counter()
@@ -84,7 +88,7 @@ class Guard:
             stages_run.append(self.judge_name)
             decision = policy_engine.decide(self.policy, findings, verdict)
         elif decision.judge_needed:
-            # Stage 3 が無効、または block 確定で不要。off 扱いで判定し直す
+            # Stage 3 が無効・不在、または block 確定で不要。off 扱いで判定し直す
             decision = policy_engine.decide(
                 self.policy.model_copy(
                     update={"stages": self.policy.stages.model_copy(update={"llm_judge": "off"})}
@@ -92,6 +96,8 @@ class Guard:
                 findings,
                 None,
             )
+            if decision.action != "block" and self.policy.stages.llm_judge != "off":
+                decision.reason += "（Stage 3 不在のため）"
 
         masked = None
         if decision.action == "mask" and decision.to_mask:

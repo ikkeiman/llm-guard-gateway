@@ -25,10 +25,19 @@ rules:
 
   - name: phone_mobile
     kind: phone
-    description: 携帯電話（070/080/090）
-    pattern: '(?<![0-9])0[789]0[ -]?[0-9]{4}[ -]?[0-9]{4}(?![0-9])'
+    description: 携帯電話（070/080/090）。区切りあり
+    pattern: '(?<![0-9])0[789]0[ -][0-9]{4}[ -][0-9]{4}(?![0-9])'
     validator: jp_phone_digits
-    confidence: 0.85
+    confidence: 0.92
+    context_keywords: [TEL, Tel, tel, 電話, 携帯, 連絡先, 📞]
+    confidence_with_context: 0.97
+
+  - name: phone_mobile_plain
+    kind: phone
+    description: 携帯電話。区切りなしの11桁は他の番号と紛れるので不確実帯に置く
+    pattern: '(?<![0-9])0[789]0[0-9]{8}(?![0-9])'
+    validator: jp_phone_digits
+    confidence: 0.75
     context_keywords: [TEL, Tel, tel, 電話, 携帯, 連絡先, 📞]
     confidence_with_context: 0.95
 
@@ -43,9 +52,9 @@ rules:
 
   - name: phone_tollfree
     kind: phone
-    description: フリーダイヤル（0120 / 0800）
+    description: フリーダイヤル（0120 / 0800）。企業の窓口番号なので個人情報としては弱めだが、形式は確実
     pattern: '(?<![0-9])(?:0120[ -]?[0-9]{3}[ -]?[0-9]{3}|0800[ -]?[0-9]{3}[ -]?[0-9]{4})(?![0-9])'
-    confidence: 0.80
+    confidence: 0.85
     context_keywords: [TEL, 電話, 連絡先, 窓口]
     confidence_with_context: 0.90
 
@@ -54,7 +63,7 @@ rules:
     description: 固定電話。区切りがある形式だけを対象（数字だけの10桁は注文番号等と区別できない）
     pattern: '(?<![0-9])0[1-9](?:[0-9]{0,3}-[0-9]{1,4}-|\([0-9]{1,4}\)[0-9]{1,4}-?)[0-9]{4}(?![0-9])'
     validator: jp_phone_digits
-    confidence: 0.75
+    confidence: 0.85
     context_keywords: [TEL, Tel, tel, 電話, 連絡先, FAX, Fax]
     confidence_with_context: 0.95
 

@@ -98,12 +98,12 @@ def create_app(
                     for d in guard.detectors
                 },
                 "llm_judge": {
-                    "enabled": guard.judge_enabled(),
+                    "enabled": guard.judge is not None,
                     "policy": guard.policy.stages.llm_judge,
                     "model": getattr(guard.judge, "model", None),
                     "reachable": (
                         guard.judge.reachable()
-                        if guard.judge_enabled() and hasattr(guard.judge, "reachable")
+                        if guard.judge is not None and hasattr(guard.judge, "reachable")
                         else None
                     ),
                 },

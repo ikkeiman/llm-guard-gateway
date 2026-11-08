@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from typing import Any
 
 import httpx
@@ -95,12 +96,25 @@ class OllamaJudge:
         self.timeout_seconds = timeout_seconds
         self.max_retries = max_retries
         self._client = client or httpx.Client(timeout=timeout_seconds)
+        self._reachable_cache: bool | None = None
+        self._reachable_checked_at = 0.0
 
     def reachable(self) -> bool:
+        """Ollama に届くか。30 秒キャッシュする。
+
+        届かないときは Stage 3 を「不在」として飛ばす（policy.uncertain_without_judge に従う）。
+        届いたのに応答が壊れた・遅いときだけ「判断不能」（policy.on_judge_error）になる。
+        不在と失敗を区別するのは、Ollama を立てていない環境でも既定の mask で動くようにするため。
+        """
+        now = time.monotonic()
+        if self._reachable_cache is not None and now - self._reachable_checked_at < 30:
+            return self._reachable_cache
         try:
-            return self._client.get(f"{self.base_url}/api/tags", timeout=2.0).status_code == 200
+            ok = self._client.get(f"{self.base_url}/api/tags", timeout=2.0).status_code == 200
         except httpx.HTTPError:
-            return False
+            ok = False
+        self._reachable_cache, self._reachable_checked_at = ok, now
+        return ok
 
     def _messages(self, text: str) -> list[dict[str, str]]:
         msgs = [{"role": "system", "content": SYSTEM_PROMPT}]

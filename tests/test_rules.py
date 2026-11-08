@@ -133,3 +133,10 @@ def test_postal_code_inside_address_is_deduped(det):
     addr = [x for x in f if x.kind == "postal_address"]
     # 〒付き郵便番号と住所本体の2件。重複した包含はない
     assert len(addr) == 2
+
+
+def test_mobile_with_separators_is_confirmed_but_plain_digits_are_uncertain(det):
+    sep = det.detect("090-1234-5678")
+    plain = det.detect("09012345678")
+    assert sep[0].confidence >= 0.9
+    assert 0.4 <= plain[0].confidence < 0.9

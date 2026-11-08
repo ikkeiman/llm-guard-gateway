@@ -61,3 +61,21 @@ def test_judge_always_mode_detects_without_spans_and_reviews():
     )
     r = guard.inspect("彼の健康診断の結果は要再検査だった")
     assert len(calls) == 1 and r.decision == "review"
+
+
+def test_unreachable_judge_is_treated_as_absent_not_as_error():
+    """Ollama を立てていない環境では、不確実帯は uncertain_without_judge（既定 mask）に従う。"""
+
+    class Unreachable:
+        model = "x"
+
+        def reachable(self) -> bool:
+            return False
+
+        def __call__(self, text: str) -> JudgeVerdict:
+            raise AssertionError("呼ばれてはいけない")
+
+    guard = Guard(policy=POLICY, detectors=[RulesDetector(RULES)], judge=Unreachable())
+    r = guard.inspect("東京都千代田区丸の内1-1-1 に送付")
+    assert r.decision == "mask" and "llm_judge" not in r.stages_run
+    assert "Stage 3 不在" in r.reason

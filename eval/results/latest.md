@@ -12,7 +12,7 @@
 | 設定 | 見逃し率 ↓ | 止めすぎ率 ↓ | 判定の内訳 | p50 | p95 |
 |---|---|---|---|---|---|
 | rules のみ | 7.6% | 0.4% | allow 268, block 73, mask 159 | 0.03 ms | 0.06 ms |
-| rules + ner | 0.0% | 11.6% | allow 221, block 73, mask 206 | 11.53 ms | 16.12 ms |
+| rules + ner | 0.0% | 2.0% | allow 245, block 73, mask 182 | 13.08 ms | 17.65 ms |
 
 ## 種類別（文書単位）
 
@@ -40,10 +40,10 @@
 | credit_card | 28 | 100.0% | 100.0% |
 | email | 38 | 100.0% | 100.0% |
 | my_number | 45 | 100.0% | 100.0% |
-| person_name | 103 | 99.0% | 71.8% |
+| person_name | 103 | 99.0% | 86.4% |
 | phone | 32 | 100.0% | 100.0% |
 | postal_address | 67 | 100.0% | 98.5% |
 
-段階ごとの p50: rules 0.05 ms（500 回）, ner 11.45 ms（500 回）
-止めすぎの例: neg-0130 → person_name, neg-0096 → person_name, neg-0055 → person_name, neg-0207 → person_name, neg-0111 → person_name
+段階ごとの p50: rules 0.06 ms（500 回）, ner 13.01 ms（500 回）
+止めすぎの例: neg-0197 → person_name, neg-0043 → person_name, neg-0221 → person_name, neg-0108 → postal_address, neg-0163 → person_name
 

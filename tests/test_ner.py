@@ -42,3 +42,12 @@ def test_not_ready_detector_is_skipped_gracefully():
     d = NERDetector(model="ja_not_installed_model")
     assert d.available() is False
     assert d.detect("山田太郎") == []
+
+
+def test_org_and_place_suffixes_are_filtered():
+    assert names("訪問先: 長野支店。所感: 愛知県内の店舗") == []
+
+
+def test_trailing_newline_is_not_part_of_the_name():
+    found = names("対象: 山田太郎\n理由: 転居")
+    assert found and found[0][0] == "山田太郎"

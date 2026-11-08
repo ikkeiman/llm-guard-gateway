@@ -22,6 +22,10 @@ _LABEL_BEFORE = re.compile(
     r"(氏名|名前|担当|申請者|依頼者|報告者|お客様|契約者|宛|様)\s?[:：]?\s?$"
 )
 _SPACE = re.compile(r"[ 　]")
+# 人名ではなく組織・場所の言及である可能性が高い語尾。GiNZA が Person と取ることがある
+_NOT_PERSON_SUFFIX = re.compile(
+    r"(支店|営業所|出張所|本店|本社|工場|事業所|店|部|課|係|室|県内|都内|府内|市内|区内|方面|駅|空港|大学|高校|病院)$"
+)
 
 # GiNZA の固有表現ラベル（関根の拡張固有表現階層）のうち、人名として扱うもの
 PERSON_LABELS = {"Person"}
@@ -72,7 +76,12 @@ class NERDetector:
             if ent.label_ not in PERSON_LABELS:
                 continue
             start, end = ent.start_char, ent.end_char
+            # 末尾の空白・改行は固有表現に含めない
+            while end > start and text[end - 1] in " 　\n\r\t":
+                end -= 1
             value = text[start:end]
+            if not value or _NOT_PERSON_SUFFIX.search(value):
+                continue
             confidence = self._confidence(text, value, start, end)
             findings.append(
                 Finding(

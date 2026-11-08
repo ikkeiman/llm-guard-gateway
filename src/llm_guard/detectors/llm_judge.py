@@ -98,6 +98,7 @@ class OllamaJudge:
         self._client = client or httpx.Client(timeout=timeout_seconds)
         self._reachable_cache: bool | None = None
         self._reachable_checked_at = 0.0
+        self.last_meta: dict[str, Any] = {}  # 直近の応答の計測値（所要時間・トークン数）。診断用
 
     def reachable(self) -> bool:
         """Ollama に届くか。30 秒キャッシュする。
@@ -135,7 +136,10 @@ class OllamaJudge:
                         "messages": self._messages(text),
                         "stream": False,
                         "format": "json",
-                        "options": {"temperature": 0},
+                        # num_predict: JSON モードで停止せず空白を出し続ける挙動への保険。
+                        # 返す JSON は 100 トークン未満で足りる
+                        "options": {"temperature": 0, "num_predict": 160},
+                        "keep_alive": "10m",
                     },
                     timeout=self.timeout_seconds,
                 )
@@ -146,7 +150,21 @@ class OllamaJudge:
             if r.status_code != 200:
                 return JudgeVerdict(error=f"http {r.status_code}")
             try:
-                content = r.json().get("message", {}).get("content", "")
+                data = r.json()
+                content = data.get("message", {}).get("content", "")
+                self.last_meta = {
+                    k: data.get(k)
+                    for k in (
+                        "total_duration",
+                        "load_duration",
+                        "prompt_eval_count",
+                        "prompt_eval_duration",
+                        "eval_count",
+                        "eval_duration",
+                        "done_reason",
+                    )
+                }
+                self.last_meta["content"] = content
             except ValueError:
                 content = ""
             verdict = _parse(content)

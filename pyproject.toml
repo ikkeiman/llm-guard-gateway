@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "LLM への入力を3段階で検査し、個人情報を止めてから転送するプロキシ"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 authors = [{ name = "Ikkei Miyata" }]
 dependencies = [
   "fastapi>=0.115",

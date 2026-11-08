@@ -57,7 +57,7 @@ curl -s localhost:8000/healthz
 
 ### ローカル（uv。Docker なしで動く）
 
-[uv](https://docs.astral.sh/uv/) が入っていれば、Docker が無くても動きます。ターミナルを2つ使います。
+[uv](https://docs.astral.sh/uv/) が入っていれば、Docker が無くても動きます。Python は `.python-version` の 3.12 を uv が自動で用意します（3.14 以降は依存のバイナリが無くビルドに失敗するため `requires-python` で除外しています）。ターミナルを2つ使います。
 
 macOS / Linux:
 

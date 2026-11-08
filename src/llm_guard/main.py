@@ -10,8 +10,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from llm_guard import __version__
-from llm_guard.config import ACTION_SEVERITY, Settings, load_policy, load_rules
-from llm_guard.detectors.rules import RulesDetector
+from llm_guard.config import ACTION_SEVERITY, Settings, load_policy
+from llm_guard.factory import build_guard
 from llm_guard.forwarder import OpenAICompatForwarder
 from llm_guard.masking import MaskMap
 from llm_guard.pipeline import Guard, InspectionResult
@@ -52,11 +52,7 @@ def create_app(
     policy = load_policy(settings.policy_path)
 
     if guard is None:
-        rules = load_rules(settings.rules_path)
-        detectors = []
-        if policy.stages.rules:
-            detectors.append(RulesDetector(rules))
-        guard = Guard(policy=policy, detectors=detectors)
+        guard = build_guard(policy, settings)
 
     forwarder = forwarder or OpenAICompatForwarder(
         settings.openai_base_url, settings.openai_api_key, settings.openai_model

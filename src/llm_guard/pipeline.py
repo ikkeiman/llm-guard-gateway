@@ -31,6 +31,7 @@ class InspectionResult(BaseModel):
     reason: str = ""
     masked_text: str | None = None
     judge: dict | None = None
+    acted_findings: list[Finding] = []  # 判定に効いた検出（確定＋昇格）。評価の種類別集計に使う
 
     def public_findings(self) -> list[dict]:
         """原文（text）を含まない形。監査ログ用。"""
@@ -104,6 +105,7 @@ class Guard:
             total_ms=round((time.perf_counter() - t0) * 1000, 3),
             reason=decision.reason,
             masked_text=masked,
+            acted_findings=decision.to_mask,
             judge=(
                 None
                 if verdict is None

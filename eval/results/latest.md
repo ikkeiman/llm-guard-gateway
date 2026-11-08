@@ -11,8 +11,8 @@
 
 | 設定 | 見逃し率 ↓ | 止めすぎ率 ↓ | 判定の内訳 | p50 | p95 |
 |---|---|---|---|---|---|
-| rules のみ | 7.6% | 0.4% | allow 268, block 73, mask 159 | 0.03 ms | 0.06 ms |
-| rules + ner | 0.0% | 2.0% | allow 245, block 73, mask 182 | 12.93 ms | 16.35 ms |
+| rules のみ | 7.6% | 0.4% | allow 268, block 73, mask 159 | 0.03 ms | 0.05 ms |
+| rules + ner | 0.0% | 2.0% | allow 245, block 73, mask 182 | 12.87 ms | 17.47 ms |
 | rules + ner + llm(on_uncertain) | 未実測 | 未実測 | Ollama（http://localhost:11434）に接続できず | - | - |
 | rules + ner + llm(always) | 未実測 | 未実測 | Ollama（http://localhost:11434）に接続できず | - | - |
 
@@ -30,7 +30,7 @@
 | phone | 32 | 100.0% | 100.0% |
 | postal_address | 67 | 100.0% | 98.5% |
 
-段階ごとの p50: rules 0.03 ms（500 回）
+段階ごとの p50: rules 0.02 ms（500 回）
 見逃しの例: pos-0000 (name), pos-0085 (name), pos-0215 (name), pos-0064 (name), pos-0090 (name)
 止めすぎの例: neg-0108 → postal_address
 
@@ -46,6 +46,6 @@
 | phone | 32 | 100.0% | 100.0% |
 | postal_address | 67 | 100.0% | 98.5% |
 
-段階ごとの p50: rules 0.06 ms（500 回）, ner 12.81 ms（500 回）
+段階ごとの p50: rules 0.06 ms（500 回）, ner 12.77 ms（500 回）
 止めすぎの例: neg-0197 → person_name, neg-0043 → person_name, neg-0221 → person_name, neg-0108 → postal_address, neg-0163 → person_name
 

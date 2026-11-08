@@ -6,6 +6,7 @@ import uuid
 from typing import Any
 
 from fastapi import FastAPI, Request, Response
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -87,6 +88,12 @@ def create_app(
                 "llm_judge": {
                     "enabled": guard.judge_enabled(),
                     "policy": guard.policy.stages.llm_judge,
+                    "model": getattr(guard.judge, "model", None),
+                    "reachable": (
+                        guard.judge.reachable()
+                        if guard.judge_enabled() and hasattr(guard.judge, "reachable")
+                        else None
+                    ),
                 },
             },
         }
@@ -130,7 +137,8 @@ def create_app(
                 new_messages.append(m)
                 continue
             text = _message_text(m.get("content"))
-            r = guard.inspect(text, mask_map)
+            # Stage 3 は数秒かかることがあるので、イベントループを塞がないようスレッドで実行
+            r = await run_in_threadpool(guard.inspect, text, mask_map)
             results.append(r)
             if ACTION_SEVERITY[r.decision] > ACTION_SEVERITY[decision]:
                 decision = r.decision

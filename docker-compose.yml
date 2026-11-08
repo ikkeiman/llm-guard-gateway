@@ -1,0 +1,43 @@
+# gateway（本体）+ ollama（Stage 3 の判定モデル）+ mock-llm（転送先の代わり。実物の API キーなしで試せる）
+#
+#   docker compose up -d
+#   docker compose exec ollama ollama pull qwen2.5:7b-instruct   # 初回だけ。数 GB
+#   curl -s localhost:8000/healthz
+#
+# 実際の OpenAI 互換 API に転送するときは .env の OPENAI_BASE_URL / OPENAI_API_KEY を設定し、
+# gateway の environment から OPENAI_BASE_URL の行を消す。
+
+services:
+  gateway:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      OPENAI_BASE_URL: http://mock-llm:8001/v1
+      GUARD_DATA_DIR: /data
+    volumes:
+      - guard-data:/data
+    depends_on:
+      - ollama
+      - mock-llm
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+
+  mock-llm:
+    build: .
+    command: ["uv", "run", "--no-sync", "python", "-m", "llm_guard.mock_llm"]
+    ports:
+      - "8001:8001"
+
+volumes:
+  guard-data:
+  ollama-models:

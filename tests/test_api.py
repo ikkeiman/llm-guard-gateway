@@ -1,6 +1,8 @@
 import httpx
 import pytest
 
+from llm_guard.config import Settings, load_policy
+from llm_guard.factory import build_guard
 from llm_guard.forwarder import OpenAICompatForwarder
 from llm_guard.main import create_app
 from llm_guard.mock_llm import create_mock_app
@@ -16,7 +18,13 @@ async def mock_client():
 @pytest.fixture
 async def client(mock_client):
     forwarder = OpenAICompatForwarder("http://mock/v1", client=mock_client)
-    app = create_app(forwarder=forwarder)
+    # テストでは Stage 2（モデルのロードが重い）と Stage 3（Ollama が要る）を切る
+    policy = load_policy("config/policy.yaml")
+    policy = policy.model_copy(
+        update={"stages": policy.stages.model_copy(update={"ner": False, "llm_judge": "off"})}
+    )
+    guard = build_guard(policy, Settings())
+    app = create_app(forwarder=forwarder, guard=guard)
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as c:
         yield c

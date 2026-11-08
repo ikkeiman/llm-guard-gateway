@@ -50,6 +50,9 @@ class Thresholds(BaseModel):
 
 class KindPolicy(BaseModel):
     min_action: Action = "mask"
+    # Stage 3 が「機微でない」と判断したとき、この種類の不確実な検出を解放してよいか。
+    # チェックディジットで検証済みの番号（個人番号・カード）は LLM に上書きさせない
+    judge_can_release: bool = True
 
 
 class StagesConfig(BaseModel):

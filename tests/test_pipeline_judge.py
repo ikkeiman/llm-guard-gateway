@@ -12,7 +12,7 @@ POLICY = load_policy("config/policy.yaml")
 def make_guard(verdict: JudgeVerdict, **policy_overrides) -> tuple[Guard, list[str]]:
     calls: list[str] = []
 
-    def judge(text: str) -> JudgeVerdict:
+    def judge(text: str, candidates) -> JudgeVerdict:
         calls.append(text)
         return verdict
 
@@ -72,10 +72,31 @@ def test_unreachable_judge_is_treated_as_absent_not_as_error():
         def reachable(self) -> bool:
             return False
 
-        def __call__(self, text: str) -> JudgeVerdict:
+        def __call__(self, text: str, candidates) -> JudgeVerdict:
             raise AssertionError("呼ばれてはいけない")
 
     guard = Guard(policy=POLICY, detectors=[RulesDetector(RULES)], judge=Unreachable())
     r = guard.inspect("東京都千代田区丸の内1-1-1 に送付")
     assert r.decision == "mask" and "llm_judge" not in r.stages_run
     assert "Stage 3 不在" in r.reason
+
+
+def test_judge_cannot_release_checksum_validated_numbers():
+    """文脈のない個人番号（0.70）を Stage 3 が「違う」と言っても、
+    検査数字が合う番号は維持して block。"""
+    guard, calls = make_guard(JudgeVerdict(sensitive=False, reason="ただの番号"))
+    r = guard.inspect("管理番号 123456789018 を確認")
+    assert len(calls) == 1
+    assert r.decision == "block" and "judge_can_release" in r.reason
+
+
+def test_judge_receives_candidates():
+    received = []
+
+    def judge(text: str, candidates) -> JudgeVerdict:
+        received.extend(candidates)
+        return JudgeVerdict(sensitive=True, kinds=["postal_address"])
+
+    guard = Guard(policy=POLICY, detectors=[RulesDetector(RULES)], judge=judge)
+    guard.inspect("東京都千代田区丸の内1-1-1 に送付")
+    assert [c.kind.value for c in received] == ["postal_address"]

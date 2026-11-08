@@ -19,7 +19,9 @@ from llm_guard.detectors.base import Detector, Finding
 from llm_guard.masking import MaskMap, mask_text
 from llm_guard.policy import JudgeVerdict
 
-Judge = Callable[[str], JudgeVerdict]
+# Stage 3 には文だけでなく、Stage 1/2 が見つけた不確実な候補も渡す。
+# 「この文に個人情報があるか」ではなく「この候補は個人情報として扱うべきか」を聞くため
+Judge = Callable[[str, list[Finding]], JudgeVerdict]
 
 
 class InspectionResult(BaseModel):
@@ -83,7 +85,8 @@ class Guard:
         if decision.judge_needed and decision.action != "block" and self.judge_enabled():
             assert self.judge is not None
             ts = time.perf_counter()
-            verdict = self.judge(text)
+            _, uncertain, _ = policy_engine.split(self.policy, findings)
+            verdict = self.judge(text, uncertain)
             timings[self.judge_name] = round((time.perf_counter() - ts) * 1000, 3)
             stages_run.append(self.judge_name)
             decision = policy_engine.decide(self.policy, findings, verdict)

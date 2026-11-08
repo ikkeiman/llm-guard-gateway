@@ -143,9 +143,10 @@ def render(
         "# 評価結果（合成データでの参考値）",
         "",
         f"- 実行日: {today}",
-        f"- データ: `{dataset.relative_to(ROOT)}`（{n} 件、{seed_note}）",
+        f"- データ: `{dataset.relative_to(ROOT).as_posix()}`（{n} 件、{seed_note}）",
         f"- 環境: {platform.python_implementation()} {platform.python_version()}, "
-        f"{platform.machine()}, CPU のみ",
+        f"{platform.system()} {platform.machine()}。"
+        "Stage 1/2 は CPU、Stage 3 は Ollama 側の実行環境",
         "- 計測方法: `eval/run_eval.py`。HTTP を介さずパイプラインを直接呼び出し",
         "",
         "合成データなので、実データでの精度を示すものではない。"

@@ -79,3 +79,11 @@ def test_threshold_order_is_validated():
 
     with pytest.raises(ValueError):
         Policy(thresholds={"block_at": 0.5, "uncertain_low": 0.6, "uncertain_high": 0.7})
+
+
+def test_judge_can_release_false_keeps_uncertain_finding(policy):
+    # policy.yaml では my_number / credit_card が judge_can_release: false
+    d = decide(policy, [f(Kind.MY_NUMBER, 0.7)], JudgeVerdict(sensitive=False))
+    assert d.action == "block" and len(d.to_mask) == 1
+    d2 = decide(policy, [f(Kind.POSTAL_ADDRESS, 0.7)], JudgeVerdict(sensitive=False))
+    assert d2.action == "allow" and d2.to_mask == []

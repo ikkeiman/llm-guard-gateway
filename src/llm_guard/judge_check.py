@@ -12,8 +12,10 @@ import time
 
 import httpx
 
-from llm_guard.config import Settings, load_policy
-from llm_guard.detectors.llm_judge import OllamaJudge
+from llm_guard.config import Settings, load_policy, load_rules
+from llm_guard.detectors.llm_judge import OllamaJudge, build_user_message
+from llm_guard.detectors.rules import RulesDetector
+from llm_guard.policy import split
 
 
 def main() -> int:
@@ -40,9 +42,11 @@ def main() -> int:
         return 1
 
     judge = OllamaJudge(settings.ollama_base_url, model, timeout_seconds=timeout, max_retries=0)
-    print(f"判定中: {text!r}")
+    findings = RulesDetector(load_rules(settings.rules_path)).detect(text)
+    _, candidates, _ = split(policy, findings)
+    print("Stage 3 への入力:\n" + build_user_message(text, candidates))
     t0 = time.perf_counter()
-    verdict = judge(text)
+    verdict = judge(text, candidates)
     elapsed = time.perf_counter() - t0
     print(f"所要時間: {elapsed:.1f} 秒")
     meta = judge.last_meta

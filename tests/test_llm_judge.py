@@ -43,7 +43,8 @@ def test_sensitive_verdict_and_request_shape():
     assert v.sensitive and v.kinds == ["person_name"] and v.error is None
     body = calls["bodies"][0]
     assert body["model"] == "test-model" and body["format"] == "json" and body["stream"] is False
-    assert body["messages"][-1] == {"role": "user", "content": "山田太郎に送る"}
+    assert body["messages"][-1]["role"] == "user"
+    assert body["messages"][-1]["content"].startswith("文:\n山田太郎に送る\n\n候補:\n- なし")
     assert body["messages"][0]["role"] == "system"
 
 
@@ -69,3 +70,20 @@ def test_timeout_is_reported_without_retry():
 def test_http_error_is_reported():
     judge, _ = fake_ollama([500])
     assert judge("x").error == "http 500"
+
+
+def test_candidates_are_listed_in_the_prompt():
+    from llm_guard.detectors.base import Finding, Kind
+
+    judge, calls = fake_ollama([{"sensitive": True, "kinds": ["postal_address"], "reason": "住所"}])
+    cand = Finding(
+        kind=Kind.POSTAL_ADDRESS,
+        start=0,
+        end=13,
+        text="東京都千代田区丸の内1-1-1",
+        confidence=0.7,
+        stage="rules",
+    )
+    judge("東京都千代田区丸の内1-1-1 に送付", [cand])
+    content = calls["bodies"][0]["messages"][-1]["content"]
+    assert "候補:\n- postal_address: 東京都千代田区丸の内1-1-1" in content

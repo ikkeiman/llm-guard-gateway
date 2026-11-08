@@ -16,6 +16,7 @@ from typing import Any
 
 import httpx
 
+from llm_guard.detectors.base import Finding
 from llm_guard.policy import JudgeVerdict
 
 KINDS = [
@@ -30,14 +31,18 @@ KINDS = [
 ]
 
 SYSTEM_PROMPT = """あなたは企業の情報セキュリティ担当です。
-与えられた文に、次のいずれかが含まれるかを判定してください。
-- 特定の個人を識別できる情報（氏名、電話番号、住所、メールアドレス、個人番号、カード番号、口座番号）
-- 社外に出してはいけない機微情報（健康状態、信条、未公開の取引条件や人事情報など）
+文と、機械的な検査が見つけた「候補」が与えられます。候補が実在の個人の情報として扱うべきものか、
+または文に社外に出してはいけない機微情報（健康状態、信条、未公開の取引条件や人事情報など）があるかを判定してください。
 
-注意:
-- 会社名、支店名、地名、製品コード、注文番号、日付、金額は個人情報ではありません
-- 一部が伏せ字（****）になっている番号は、すでに匿名化されているので含まれるとみなしません
-- 架空の例や一般論（「氏名を入力してください」）は含まれるとみなしません
+個人情報として扱うもの（氏名が一緒に無くても該当します）:
+- 個人の氏名（フルネーム、または文脈から特定の人と分かる姓）
+- 電話番号、メールアドレス、住所（都道府県から番地まで）、口座番号、個人番号、カード番号
+
+該当しないもの:
+- 会社名、支店名、部署名、地名だけの言及（「長野支店」「東京都内」）
+- 製品コード、注文番号、伝票番号、内線番号、日付、金額、バージョン番号
+- 一部が伏せ字（****）になっている番号（すでに匿名化済み）
+- 架空の例や一般論（「氏名を入力してください」）
 
 必ず次の JSON だけを返してください。説明文は不要です。
 {"sensitive": true または false, "kinds": [該当する種類の配列], "reason": "20字以内の理由"}
@@ -47,18 +52,34 @@ kinds に使える値: my_number, phone, postal_address, email, person_name,
 
 FEW_SHOT: list[tuple[str, dict[str, Any]]] = [
     (
-        "訪問先: 長野支店。所感: 株式会社林物産の担当者が交代予定",
+        "文:\n訪問先: 長野支店。所感: 株式会社林物産の担当者が交代予定\n\n"
+        "候補:\n- person_name: 長野支店",
         {"sensitive": False, "kinds": [], "reason": "組織名と地名のみ"},
     ),
     (
-        "山田太郎に資料を送る。先方は来週まで出張とのこと",
+        "文:\n山田太郎に資料を送る。先方は来週まで出張とのこと\n\n候補:\n- person_name: 山田太郎",
         {"sensitive": True, "kinds": ["person_name"], "reason": "特定個人の氏名"},
     ),
     (
-        "問い合わせ番号 2026-004512 の件、090-****-1234 へ折り返し済み",
+        "文:\n申請内容: 大阪府大阪市北区梅田1-2-3 へ送付\n\n"
+        "候補:\n- postal_address: 大阪府大阪市北区梅田1-2-3",
+        {"sensitive": True, "kinds": ["postal_address"], "reason": "番地までの住所"},
+    ),
+    (
+        "文:\n問い合わせ番号 2026-004512 の件、090-****-1234 へ折り返し済み\n\n候補:\n- なし",
         {"sensitive": False, "kinds": [], "reason": "伏せ字済み番号と管理番号"},
     ),
 ]
+
+
+def build_user_message(text: str, candidates: list[Finding]) -> str:
+    """文と候補を1つのメッセージにする。候補は種類と該当箇所だけで、confidence は見せない。"""
+    if candidates:
+        lines = [f"- {c.kind.value}: {c.text}" for c in candidates]
+    else:
+        lines = ["- なし"]
+    return "文:\n" + text + "\n\n候補:\n" + "\n".join(lines)
+
 
 _JSON_BLOCK = re.compile(r"\{.*\}", re.S)
 
@@ -117,15 +138,16 @@ class OllamaJudge:
         self._reachable_cache, self._reachable_checked_at = ok, now
         return ok
 
-    def _messages(self, text: str) -> list[dict[str, str]]:
+    def _messages(self, text: str, candidates: list[Finding]) -> list[dict[str, str]]:
         msgs = [{"role": "system", "content": SYSTEM_PROMPT}]
         for q, a in FEW_SHOT:
             msgs.append({"role": "user", "content": q})
             msgs.append({"role": "assistant", "content": json.dumps(a, ensure_ascii=False)})
-        msgs.append({"role": "user", "content": text})
+        msgs.append({"role": "user", "content": build_user_message(text, candidates)})
         return msgs
 
-    def __call__(self, text: str) -> JudgeVerdict:
+    def __call__(self, text: str, candidates: list[Finding] | None = None) -> JudgeVerdict:
+        candidates = candidates or []
         last_error = "unknown"
         for _attempt in range(self.max_retries + 1):
             try:
@@ -133,7 +155,7 @@ class OllamaJudge:
                     f"{self.base_url}/api/chat",
                     json={
                         "model": self.model,
-                        "messages": self._messages(text),
+                        "messages": self._messages(text, candidates),
                         "stream": False,
                         "format": "json",
                         # num_predict: JSON モードで停止せず空白を出し続ける挙動への保険。

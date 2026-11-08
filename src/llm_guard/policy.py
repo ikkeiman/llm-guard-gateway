@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from llm_guard.config import ACTION_SEVERITY, Action, Policy
+from llm_guard.config import ACTION_SEVERITY, Action, KindPolicy, Policy
 from llm_guard.detectors.base import Finding
 
 
@@ -113,9 +113,22 @@ def decide(policy: Policy, findings: list[Finding], verdict: JudgeVerdict | None
             else:
                 reasons.append("Stage 3 も機微と判断")
         else:
-            if uncertain:
-                reasons.append(f"Stage 3 が機微でないと判断、不確実検出 {len(uncertain)} 件を無視")
-                low = low + uncertain
+            locked = [
+                f
+                for f in uncertain
+                if not policy.kinds.get(f.kind.value, KindPolicy()).judge_can_release
+            ]
+            released = [f for f in uncertain if f not in locked]
+            if released:
+                reasons.append(f"Stage 3 が機微でないと判断、不確実検出 {len(released)} 件を解放")
+                low = low + released
+            if locked:
+                action = _apply_kind_minimum(policy, _stronger(action, policy.mode), locked)
+                to_mask.extend(locked)
+                reasons.append(
+                    f"検証済みの番号 {len(locked)} 件は Stage 3 の判断に関わらず維持"
+                    "（judge_can_release: false）"
+                )
     elif uncertain:
         # Stage 3 が off、または不要と判断された
         fallback = policy.uncertain_without_judge

@@ -16,10 +16,12 @@ thresholds:
   uncertain_low: 0.40        # この帯（low 以上 high 未満）は Stage 3 のローカル LLM 判定に回す
   uncertain_high: 0.90
 
-# 種類ごとに「最低でもこの強さで扱う」を決められる。mode が mask でも個人番号とカード番号は止める
+# 種類ごとに「最低でもこの強さで扱う」を決められる。mode が mask でも個人番号とカード番号は止める。
+# judge_can_release: false は「Stage 3 が機微でないと言っても解放しない」。検査数字・Luhn で検証済みの番号は
+# 機械的な判定の方が信頼できるため、LLM には上書きさせない
 kinds:
-  my_number: { min_action: block }
-  credit_card: { min_action: block }
+  my_number: { min_action: block, judge_can_release: false }
+  credit_card: { min_action: block, judge_can_release: false }
 
 # Stage 3 が JSON を返せない・タイムアウトしたとき
 on_judge_error: review

@@ -55,13 +55,27 @@ curl -s localhost:8000/healthz
 
 転送先は既定で同梱のモック（最後の user メッセージをそのまま返す）に向いています。実際の OpenAI 互換 API に送るときは `.env.example` を `.env` にコピーして `OPENAI_BASE_URL` と `OPENAI_API_KEY` を入れ、`docker-compose.yml` の gateway から `OPENAI_BASE_URL` の行を消してください。`.env` はコミットしないでください。
 
-### ローカル（uv）
+### ローカル（uv。Docker なしで動く）
+
+[uv](https://docs.astral.sh/uv/) が入っていれば、Docker が無くても動きます。ターミナルを2つ使います。
+
+macOS / Linux:
 
 ```bash
 uv sync --all-extras --dev        # GiNZA 込み。Stage 2 を使わないなら --all-extras を外す
-uv run python -m llm_guard.mock_llm &                 # 転送先のモック（:8001）
-OPENAI_BASE_URL=http://127.0.0.1:8001/v1 uv run uvicorn llm_guard.main:app --port 8000
+uv run python -m llm_guard.mock_llm                   # ターミナル1: 転送先のモック（:8001）
+OPENAI_BASE_URL=http://127.0.0.1:8001/v1 uv run uvicorn llm_guard.main:app --port 8000   # ターミナル2
 ```
+
+Windows（PowerShell）:
+
+```powershell
+uv sync --all-extras --dev
+uv run python -m llm_guard.mock_llm                   # ターミナル1
+$env:OPENAI_BASE_URL = "http://127.0.0.1:8001/v1"; uv run uvicorn llm_guard.main:app --port 8000   # ターミナル2
+```
+
+Windows の `curl.exe` では JSON の引用符をエスケープする必要があるため、動作確認は http://localhost:8000/docs の画面（FastAPI が自動生成）から送るのが簡単です。
 
 Stage 3 を使うには別途 [Ollama](https://ollama.com/) を起動し、`ollama pull qwen2.5:7b-instruct` しておきます。Ollama に届かないときは Stage 3 を飛ばし、不確実帯の検出は `uncertain_without_judge`（既定 mask）で扱います。
 
@@ -191,7 +205,7 @@ Stage 1 の定義。1ルールは正規表現・検証関数（`my_number_check_
 - **`stream: true` は未対応**（400 を返します）。応答の検査・復元のために全文を受け取る設計です
 - Stage 3 は Ollama の `/api/chat` 専用です。モデルは `qwen2.5:7b-instruct` で設計しましたが、この README を書いた環境では実行していません
 - 画像・ファイルなど文字列以外の入力は検査しません（`content` 配列の `text` パーツだけを見ます）
-- Dockerfile と docker-compose.yml は、この README を書いた環境では Docker デーモンが無く動作確認できていません。ローカルの `uv` での手順とテスト（72 件）・評価は実行済みです
+- Dockerfile と docker-compose.yml は、この README を書いた環境では Docker デーモンが無く動作確認できていません。ローカルの `uv` での手順（macOS / Linux）とテスト（72 件）・評価は実行済みです。Windows での起動手順は記載していますが未検証です
 
 ## 開発
 
